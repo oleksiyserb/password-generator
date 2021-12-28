@@ -92,6 +92,10 @@
             class="bg-white border-gray-500 text-gray-500 font-bold py-2 px-4 rounded flex items-center"
             type="button"
             @click="getPassword"
+            :disabled="smallOrBigLength"
+            :class="{
+              'bg-gray-200': smallOrBigLength,
+            }"
           >
             Generate &nbsp;
             <svg
@@ -158,6 +162,14 @@ export default {
     };
   },
 
+  computed: {
+    smallOrBigLength() {
+      return (
+        this.options.passwordLength <= 0 || this.options.passwordLength > 30
+      );
+    },
+  },
+
   methods: {
     getPassword() {
       const uppercaseWorlds = Array.from("QWERTYUIOPASDFGHJKLZXCVBNM");
@@ -165,6 +177,8 @@ export default {
       const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       const symbols = Array.from("<?>/!@#$%&*()-=~");
       this.words = [];
+
+      if (!Object.values(this.options).some((item) => item == true)) return;
 
       if (this.options.uppercaseLetters == true) {
         this.words = [...this.words, ...uppercaseWorlds];
