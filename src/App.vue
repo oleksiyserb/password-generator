@@ -5,7 +5,7 @@
     >
       <div
         style="border: 1px solid hsla(0, 0%, 88%, 0.2)"
-        class="test w-96 rounded-xl bg-gray-100 px-5"
+        class="test min-w-2xl w-4/12 rounded-xl bg-gray-100 px-5"
       >
         <h1 class="text-center text-2xl font-bold my-4">Password generator</h1>
 
@@ -116,9 +116,18 @@
             </svg>
           </button>
 
+          <p
+            v-if="successCopy"
+            style="bottom: -50px; left: 0"
+            class="text-green-700 bg-green-100 rounded-lg py-1 px-2"
+          >
+            Text Coppied!
+          </p>
+
           <button
             class="bg-white border-gray-500 text-gray-500 font-bold py-2 px-4 rounded flex items-center"
             type="button"
+            @click="copyPassword"
           >
             Copy &nbsp;
             <svg
@@ -159,6 +168,7 @@ export default {
       },
       password: "",
       words: [],
+      successCopy: false,
     };
   },
 
@@ -205,6 +215,19 @@ export default {
 
     getRandomInRange(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
+    copyPassword() {
+      const input = document.getElementById("password");
+
+      if (input.value != "") {
+        navigator.clipboard.writeText(input.value);
+        this.successCopy = true;
+
+        setTimeout(() => {
+          this.successCopy = false;
+        }, 2000);
+      }
     },
   },
 };
