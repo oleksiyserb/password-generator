@@ -172,25 +172,22 @@ export default {
 
   methods: {
     getPassword() {
-      const uppercaseWorlds = Array.from("QWERTYUIOPASDFGHJKLZXCVBNM");
-      const lowercaseWorlds = Array.from("qwertyuiopasdfghjklzxcvbnm");
-      const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-      const symbols = Array.from("<?>/!@#$%&*()-=~");
+      const allSigns = {
+        uppercaseLetters: Array.from("QWERTYUIOPASDFGHJKLZXCVBNM"),
+        lowercaseLetters: Array.from("qwertyuiopasdfghjklzxcvbnm"),
+        numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        symbols: Array.from("<?>/!@#$%&*()-=~"),
+      };
       this.words = [];
 
       if (!Object.values(this.options).some((item) => item == true)) return;
 
-      if (this.options.uppercaseLetters == true) {
-        this.words = [...this.words, ...uppercaseWorlds];
-      }
-      if (this.options.lowercaseLetters == true) {
-        this.words = [...this.words, ...lowercaseWorlds];
-      }
-      if (this.options.numbers == true) {
-        this.words = [...this.words, ...numbers];
-      }
-      if (this.options.symbols == true) {
-        this.words = [...this.words, ...symbols];
+      for (let key in this.options) {
+        for (let item in allSigns) {
+          if (this.options[key] == true && key == item) {
+            this.words = [...this.words, ...allSigns[item]];
+          }
+        }
       }
 
       this.password = this.generatePassword(this.words);
