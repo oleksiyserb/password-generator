@@ -69,7 +69,7 @@
             <input
               class="mr-2 leading-tight"
               type="checkbox"
-              v-model="options.includeNumbers"
+              v-model="options.numbers"
             />
           </label>
 
@@ -80,7 +80,7 @@
             <input
               class="mr-2 leading-tight"
               type="checkbox"
-              v-model="options.includeSymbols"
+              v-model="options.symbols"
             />
           </label>
         </div>
@@ -91,7 +91,7 @@
           <button
             class="bg-white border-gray-500 text-gray-500 font-bold py-2 px-4 rounded flex items-center"
             type="button"
-            @click="generatePassword"
+            @click="getPassword"
           >
             Generate &nbsp;
             <svg
@@ -146,20 +146,54 @@ export default {
 
   data() {
     return {
-      password: "",
       options: {
         passwordLength: 0,
         uppercaseLetters: false,
         lowercaseLetters: false,
-        includeNumbers: false,
-        includeSymbols: false,
+        numbers: false,
+        symbols: false,
       },
+      password: "",
+      words: [],
     };
   },
 
   methods: {
-    generatePassword() {
-      alert("generatePassword");
+    getPassword() {
+      const uppercaseWorlds = Array.from("QWERTYUIOPASDFGHJKLZXCVBNM");
+      const lowercaseWorlds = Array.from("qwertyuiopasdfghjklzxcvbnm");
+      const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const symbols = Array.from("<?>/!@#$%&*()-=~");
+      this.words = [];
+
+      if (this.options.uppercaseLetters == true) {
+        this.words = [...this.words, ...uppercaseWorlds];
+      }
+      if (this.options.lowercaseLetters == true) {
+        this.words = [...this.words, ...lowercaseWorlds];
+      }
+      if (this.options.numbers == true) {
+        this.words = [...this.words, ...numbers];
+      }
+      if (this.options.symbols == true) {
+        this.words = [...this.words, ...symbols];
+      }
+
+      this.password = this.generatePassword(this.words);
+    },
+
+    generatePassword(words) {
+      let out = "";
+
+      for (let i = 0; i < this.options.passwordLength; i++) {
+        out += words[this.getRandomInRange(0, words.length - 1)];
+      }
+
+      return out;
+    },
+
+    getRandomInRange(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     },
   },
 };
