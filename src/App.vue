@@ -5,7 +5,7 @@
     >
       <div
         style="border: 1px solid hsla(0, 0%, 88%, 0.2)"
-        class="test min-w-2xl w-4/12 rounded-xl bg-gray-100 px-5"
+        class="lg:w-4/12 md:w-6/12 rounded-xl bg-gray-100 px-5"
       >
         <h1 class="text-center text-2xl font-bold my-4">Password generator</h1>
 
@@ -87,7 +87,7 @@
 
         <hr />
 
-        <div class="flex items-center justify-between my-4">
+        <div class="flex items-center justify-between my-4 md:static relative">
           <button
             class="bg-white border-gray-500 text-gray-500 font-bold py-2 px-4 rounded flex items-center"
             type="button"
@@ -119,7 +119,7 @@
           <p
             v-if="successCopy"
             style="bottom: -50px; left: 0"
-            class="text-green-700 bg-green-100 rounded-lg py-1 px-2"
+            class="text-green-700 bg-green-200 rounded-lg py-1 px-2 md:static absolute right-0 text-center"
           >
             Text Coppied!
           </p>
@@ -175,7 +175,7 @@ export default {
   computed: {
     smallOrBigLength() {
       return (
-        this.options.passwordLength <= 0 || this.options.passwordLength > 30
+        this.options.passwordLength <= 2 || this.options.passwordLength > 30
       );
     },
   },
